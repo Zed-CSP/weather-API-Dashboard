@@ -16,22 +16,21 @@ var cityList = [];
 
 
 // Functions
-function getWeather(search) {
+function getWeather() {
     // use city name to get lat/lon with geocoder api
-    fetch(geocoderapiURL + search + "&appid=" + weatherApiKey)
+    fetch('https://api.openweathermap.org/geo/1.0/direct?q=London&limit=5&appid=64c0c09d2aaed1a2868153c4c9060aa4')
         .then(function (response) {
             return response.json();
         })
         .then(function (data) {
             console.log(data);
             // use lat/lon to get 5 day forecast
-            fetch(weatherapiURL + city + "&appid=" + weatherApiKey)
+            fetch('https://api.openweathermap.org/data/2.5/forecast?lat=44.34&lon=10.99&appid=64c0c09d2aaed1a2868153c4c9060aa4')
                 .then(function (response) {
                     console.log(response);
                     return response.json();
-                }
-                )
-                
+                })
+
         });
 
     // use lat/lon to get 5 day forecast
@@ -81,7 +80,7 @@ function displayCity() {
 
 searchBtnEl.addEventListener("click", function () {
 
-    getWeather(search.value);
+    getWeather();
 
 
     // get city name from input
