@@ -5,18 +5,73 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="assets/css/reset.css">
+    <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
     <header>
         <h1>Weather Dashboard</h1>
     </header>
     <aside>
-        <h2>Search</h2>
+        <h2>Search for a City:</h2>
         <form>
             <input type="text" placeholder="City Name">
             <button type="submit">Search</button>
         </form>
     </aside>
-
+    <main class="container">
+        <article>
+            <h2>Current Weather</h2>
+            <div class="today">
+                <h3>City Name</h3>
+                <p>Current Date</p>
+                <img src="assets/images/cloudy.png" alt="weather icon">
+                <p>Temperature</p>
+                <p>Humidity</p>
+                <p>Wind Speed</p>
+                <p>UV Index</p>
+            </div>
+        </article>
+        <section>
+            <h2>5-Day Forecast</h2>
+            <div class="row">
+                <div class="card">
+                    <h3>City Name</h3>
+                    <p>Current Date</p>
+                    <img src="assets/images/cloudy.png" alt="weather icon">
+                    <p>Temperature</p>
+                    <p>Humidity</p>
+                </div>
+                <div class="card">
+                    <h3>City Name</h3>
+                    <p>Current Date</p>
+                    <img src="assets/images/cloudy.png" alt="weather icon">
+                    <p>Temperature</p>
+                    <p>Humidity</p>
+                </div>
+                <div class="card">
+                    <h3>City Name</h3>
+                    <p>Current Date</p>
+                    <img src="assets/images/cloudy.png" alt="weather icon">
+                    <p>Temperature</p>
+                    <p>Humidity</p>
+                </div>
+                <div class="card">
+                    <h3>City Name</h3>
+                    <p>Current Date</p>
+                    <img src="assets/images/cloudy.png" alt="weather icon">
+                    <p>Temperature</p>
+                    <p>Humidity</p>
+                </div>
+                <div class="card">
+                    <h3>City Name</h3>
+                    <p>Current Date</p>
+                    <img src="assets/images/cloudy.png" alt="weather icon">
+                    <p>Temperature</p>
+                    <p>Humidity</p>
+                </div>
+            </div>
+        </section>
+    </main>
 </body>
 </html>
