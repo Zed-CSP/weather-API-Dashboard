@@ -101,6 +101,7 @@ function getCityList() {
 
 
     // return city list
+
 }
 
 function saveCityList() {
@@ -110,6 +111,18 @@ function saveCityList() {
 
 function displayCityList() {
     // display city list on page
+
+    // get city list from local storage
+    localStorage.getItem("cityList");
+    // display city list in ul element searchListEl
+    for (let i = 0; i < cityList.length; i++) {
+        let city = cityList[i];
+        let li = document.createElement("button");
+        li.textContent = city;
+        li.setAttribute("data-index", i);
+        searchListEl.appendChild(li);
+    }
+
 }
 
 function addCity() {
@@ -154,3 +167,21 @@ searchBtnEl.addEventListener("click", function () {
     // display city list
     displayCityList();
 });
+
+// event listener for city list buttons:
+searchListEl.addEventListener("click", function (event) {
+    // get city name from button
+    let city = event.target.textContent;
+    console.log(city);
+    // get weather data for city
+    getWeather(city);
+    // display weather data
+    displayWeather();
+}
+
+// event listener for clear button:
+clearBtnEl.addEventListener("click", function () {
+    // clear city list
+    // clear local storage
+    // display city list
+}
