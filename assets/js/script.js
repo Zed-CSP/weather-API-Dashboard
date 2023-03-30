@@ -3,8 +3,7 @@
 // API constants
 const weatherApiKey = "64c0c09d2aaed1a2868153c4c9060aa4";
 const weatherapiURL = "https://api.openweathermap.org/data/2.5/forecast?q=";
-const geocoderapiURL = "https://api.openweathermap.org/geo/1.0/direct?q={city name},{state code},{country code}&limit={limit}&appid={API key}";
-
+const geocoderApiURL = "https://api.openweathermap.org/geo/1.0/direct?q=";
 // DOM constants
 const cityListEl = document.getElementById("cityList");
 const search = document.getElementById("search");
@@ -19,7 +18,7 @@ var cityList = [];
 // Functions
 function getWeather() {
     // use city name to get lat/lon with geocoder api
-    fetch('https://api.openweathermap.org/geo/1.0/direct?q=' + cityList[0] + '&limit=5&appid=64c0c09d2aaed1a2868153c4c9060aa4')
+    fetch(geoCoderApiURL + cityList[0] + weatherApiKey)
         .then(function (response) {
             return response.json();
         })
@@ -148,14 +147,21 @@ function displayCity() {
 // event listener for search button:
 
 searchBtnEl.addEventListener("click", function () {
+    // check if city is already in city list
+    if (cityList.includes(search.value)) {
+        alert("City already in list");
+    }
+    
+    // if not, add city to city list
+
     let city = search.value;
     cityList.push(city);
     console.log(cityList);
     
     getWeather();
 
-
     // get city name from input
+
 
 
     // add city to city list
@@ -180,8 +186,8 @@ searchListEl.addEventListener("click", function (event) {
 });
 
 // event listener for clear button:
-clearBtnEl.addEventListener("click", function () {
+// clearBtnEl.addEventListener("click", function () {
     // clear city list
     // clear local storage
     // display city list
-});
+// });
