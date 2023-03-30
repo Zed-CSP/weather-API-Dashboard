@@ -177,11 +177,11 @@ searchListEl.addEventListener("click", function (event) {
     getWeather(city);
     // display weather data
     displayWeather();
-}
+});
 
 // event listener for clear button:
 clearBtnEl.addEventListener("click", function () {
     // clear city list
     // clear local storage
     // display city list
-}
+});
