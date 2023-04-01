@@ -87,6 +87,31 @@ var cityList = [];
 //     // return data
 // }
 
+function displayWeather(weatherData) {
+    const displayElement = document.getElementById('weatherDisplay');
+    displayElement.innerHTML = '';
+
+    for (let i = 0; i < weatherData.list.length; i += 8) {
+        const date = new Date(weatherData.list[i].dt * 1000);
+        const temp = (weatherData.list[i].main.temp - 273.15).toFixed(2);
+        const weather = weatherData.list[i].weather[0].description;
+
+        const weatherElement = `
+            <h2>${weatherData.city.name}</h2>
+            <div class="today">
+                <h3>${date.toLocaleDateString()}</h3>
+                <img src="assets/images/cloudy.png" alt="weather icon">
+                // symbol to be added later
+                <p>Temperature: ${temp}°C</p>
+                <p>Weather: ${weather}</p>
+                <p>Humidity</p>
+                <p>Wind Speed</p>
+                <p>UV Index</p>
+            </div>`;
+        displayElement.innerHTML += weatherElement;
+    }
+}
+
 async function fetchWeather() {
     const city = document.getElementById('cityInput').value;
     const pastCities = getPastCities();
