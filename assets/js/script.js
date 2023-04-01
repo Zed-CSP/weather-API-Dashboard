@@ -79,11 +79,10 @@ function getWeather() {
                 );    
             }
         );
-    } catch (error) {
-        console.log(error);
-    }
+    } 
+    .catch(error => {console.error("error fetching data:", error)});
     // use lat/lon to get 5 day forecast
-    // save data in a variable
+    // save data in an object
     // save data to local storage
     // return data
 }
@@ -105,8 +104,6 @@ function getCityList() {
         li.setAttribute("data-index", i);
         searchListEl.appendChild(li);
     }
-
-
 
     // return city list
 
