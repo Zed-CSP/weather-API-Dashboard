@@ -2,7 +2,7 @@
 
 // API constants
 const weatherApiKey = "64c0c09d2aaed1a2868153c4c9060aa4";
-const weatherapiURL = "https://api.openweathermap.org/data/2.5/forecast?q=";
+const weatherApiURL = "https://api.openweathermap.org/data/2.5/forecast?q=";
 const geocoderApiURL = "https://api.openweathermap.org/geo/1.0/direct?q=";
 // DOM constants
 const cityListEl = document.getElementById("cityList");
@@ -16,75 +16,94 @@ var cityList = [];
 
 
 // Functions
-function getWeather() {
-    // use city name to get lat/lon with geocoder api
+// function getWeather() {
+//     // use city name to get lat/lon with geocoder api
     
-    try {
-        const geoResponse = await fetch(geoCoderApiURL + cityList[0] + weatherApiKey)
-        if (!geoResponse.ok) {
-            throw new Error("Unable to connect to OpenWeather");
-        }
+//     try {
+//         const geoResponse = await fetch(geoCoderApiURL + cityList[0] + weatherApiKey)
+//         if (!geoResponse.ok) {
+//             throw new Error("Unable to connect to OpenWeather");
+//         }
             
-            .then(function (response) {
-                return response.json();
-            })
-            .then(function (data) {
-                console.log(data);
-                // save data in an object
-                const cityLocObj = {
-                    city: data[0].name,
-                    lat: data[0].lat,
-                    lon: data[0].lon
-                }
-                console.log(cityLocObj);
-                //push cityLocObj to cityList
-                cityList.push(cityLocObj);
-                console.log(cityList);
-                // use lat/lon to get 5 day forecast
-                fetch('https://api.openweathermap.org/data/2.5/forecast?lat=44.34&lon=10.99&appid=64c0c09d2aaed1a2868153c4c9060aa4')
-                    .then(function (response) {
-                        //console.log(response);
-                        if (response.ok) {
-                            return response.json();
-                        }
-                        else {
-                            alert("Error: " + response.statusText);
-                        }
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                        alert("Unable to connect to OpenWeather");
-                    })
-                    .then(function (data) {
-                        console.log(data);
-                        // save data in an object
-                        const cityWeatherObj = {
-                            city: cityLocObj.city,
-                            date: data.list[0].dt_txt,
-                            icon: data.list[0].weather[0].icon,
-                            temp: data.list[0].main.temp,
-                            humidity: data.list[0].main.humidity,
-                            wind: data.list[0].wind.speed,
-                            uv: data.list[0].main.uvi
-                        }
-                        console.log(cityWeatherObj);
+//             .then(function (response) {
+//                 return response.json();
+//             })
+//             .then(function (data) {
+//                 console.log(data);
+//                 // save data in an object
+//                 const cityLocObj = {
+//                     city: data[0].name,
+//                     lat: data[0].lat,
+//                     lon: data[0].lon
+//                 }
+//                 console.log(cityLocObj);
+//                 //push cityLocObj to cityList
+//                 cityList.push(cityLocObj);
+//                 console.log(cityList);
+//                 // use lat/lon to get 5 day forecast
+//                 fetch('https://api.openweathermap.org/data/2.5/forecast?lat=44.34&lon=10.99&appid=64c0c09d2aaed1a2868153c4c9060aa4')
+//                     .then(function (response) {
+//                         //console.log(response);
+//                         if (response.ok) {
+//                             return response.json();
+//                         }
+//                         else {
+//                             alert("Error: " + response.statusText);
+//                         }
+//                     })
+//                     .catch(function (error) {
+//                         console.log(error);
+//                         alert("Unable to connect to OpenWeather");
+//                     })
+//                     .then(function (data) {
+//                         console.log(data);
+//                         // save data in an object
+//                         const cityWeatherObj = {
+//                             city: cityLocObj.city,
+//                             date: data.list[0].dt_txt,
+//                             icon: data.list[0].weather[0].icon,
+//                             temp: data.list[0].main.temp,
+//                             humidity: data.list[0].main.humidity,
+//                             wind: data.list[0].wind.speed,
+//                             uv: data.list[0].main.uvi
+//                         }
+//                         console.log(cityWeatherObj);
 
 
-                        // save data to local storage
-                        localStorage.setItem("cityWeatherObj", JSON.stringify(cityWeatherObj));
-                        getCityList();
-                        // return data
-                        return cityWeatherObj;
-                    }
-                );    
-            }
-        );
-    } 
-    .catch(error => {console.error("error fetching data:", error)});
-    // use lat/lon to get 5 day forecast
-    // save data in an object
-    // save data to local storage
-    // return data
+//                         // save data to local storage
+//                         localStorage.setItem("cityWeatherObj", JSON.stringify(cityWeatherObj));
+//                         getCityList();
+//                         // return data
+//                         return cityWeatherObj;
+//                     }
+//                 );    
+//             }
+//         );
+//     } 
+//     .catch(error => {console.error("error fetching data:", error)});
+//     // use lat/lon to get 5 day forecast
+//     // save data in an object
+//     // save data to local storage
+//     // return data
+// }
+
+async function fetchWeather() {
+    const city = document.getElementById('cityInput').value;
+    const pastCities = getPastCities();
+
+    if (!pastCities.includes(city)) {
+        pastCities.push(city);
+        savePastCities(pastCities);
+    }
+    try {
+        const response = await fetch(`${weatherApiURL}?q=${city}&appid=${weatherApiKey}`);
+        if (!response.ok) throw new Error('Failed to fetch weather data');
+        
+        const weatherData = await response.json();
+        displayWeather(weatherData);
+    } catch (error) {
+        console.error(error);
+    }
 }
 
 function displayPastCities() {
