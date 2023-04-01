@@ -87,95 +87,38 @@ function getWeather() {
     // return data
 }
 
-function displayWeather(data) {
-    // get data from local storage
-    localStorage.getItem("cityWeatherObj");
-    // display data on page
+function displayPastCities() {
+    const pastCities = getPastCities();
+    const pastCitiesElement = document.getElementById('pastCities');
+
+    pastCitiesElement.innerHTML = '';
+
+    pastCities.forEach(city => {
+        const cityElement = document.createElement('button');
+        cityElement.textContent = city;
+        cityElement.addEventListener('click', () => {
+            document.getElementById('cityInput').value = city;
+            fetchWeather();
+        });
+
+        pastCitiesElement.appendChild(cityElement);
+    });
 }
-
-function getCityList() {
-    // get city list from local storage
-    localStorage.getItem("cityList");
-    // display city list in ul element searchListEl
-    for (var i = 0; i < cityList.length; i++) {
-        var city = cityList[i];
-        var li = document.createElement("button");
-        li.textContent = city;
-        li.setAttribute("data-index", i);
-        searchListEl.appendChild(li);
-    }
-
-    // return city list
-
-}
-
-function saveCityList() {
-    // save city list to local storage
-    cityList = JSON.parse(localStorage.getItem("cityList"));
-}
-
-function displayCityList() {
-    // display city list on page
-
-    // get city list from local storage
-    localStorage.getItem("cityList");
-    // display city list in ul element searchListEl
-    for (let i = 0; i < cityList.length; i++) {
-        let city = cityList[i];
-        let li = document.createElement("button");
-        li.textContent = city;
-        li.setAttribute("data-index", i);
-        searchListEl.appendChild(li);
-    }
-
-}
-
-function addCity() {
-    // get city name from input
-    // add city to city list
-    // save city list
-    // display city list
-}
-
-function clearCityList() {
-    // clear city list
-    // clear local storage
-    // display city list
-}
-
-function displayCity() {
-    // get city name from button
-    // get weather data for city
-    // display weather data
-}
-
-// Event listeners
-// event listener for search button:
 
 searchBtnEl.addEventListener("click", function () {
     // check if city is already in city list
     if (cityList.includes(search.value)) {
         alert("City already in list");
     }
-    
     // if not, add city to city list
-
     let city = search.value;
     cityList.push(city);
     console.log(cityList);
-    
     getWeather();
-
     // get city name from input
-
-
-
     // add city to city list
-
-
     // save city list
     localStorage.setItem("cityList", JSON.stringify(cityList));
-
     // display city list
     displayCityList();
 });
@@ -191,9 +134,3 @@ searchListEl.addEventListener("click", function (event) {
     displayWeather();
 });
 
-// event listener for clear button:
-// clearBtnEl.addEventListener("click", function () {
-    // clear city list
-    // clear local storage
-    // display city list
-// });
