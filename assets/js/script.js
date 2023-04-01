@@ -110,6 +110,11 @@ function savePastCities(pastCities) {
     localStorage.setItem('pastCities', JSON.stringify(pastCities));
 }
 
+function getPastCities() {
+    const pastCities = localStorage.getItem('pastCities');
+    return pastCities ? JSON.parse(pastCities) : [];
+}
+
 function displayPastCities() {
     const pastCities = getPastCities();
     const pastCitiesElement = document.getElementById('pastCities');
