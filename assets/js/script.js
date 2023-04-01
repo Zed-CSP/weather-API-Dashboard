@@ -106,6 +106,10 @@ async function fetchWeather() {
     }
 }
 
+function savePastCities(pastCities) {
+    localStorage.setItem('pastCities', JSON.stringify(pastCities));
+}
+
 function displayPastCities() {
     const pastCities = getPastCities();
     const pastCitiesElement = document.getElementById('pastCities');
