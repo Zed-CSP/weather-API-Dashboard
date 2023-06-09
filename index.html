@@ -15,75 +15,28 @@
     <aside>
         <h2>Search for a City:</h2>
         <form>
-            <input type="text" placeholder="City Name" id="search">
-            <button type="button" id="searchBtn" >Search</button>
+            <input type="text" placeholder="City Name" id="cityInput">
+            <button type="button" id="searchBtn" onclick="fetchWeather()">Search</button>
         </form>
         <h2>Recent Searches:</h2>
-        <ul id="searches">
-            <li>City Name</li>
-            <li>City Name</li>
-            <li>City Name</li>
-            <li>City Name</li>
-            <li>City Name</li>
-        </ul>
+        <div id="pastCities"></div> <!-- Add this element to display past cities -->
     </aside>
     <main>
         <article class="container">
             <h2>Current Weather</h2>
-            <div class="today">
-                <h3>City Name</h3>
-                <p>Current Date</p>
-                <img src="assets/images/cloudy.png" alt="weather icon">
-                <p>Temperature</p>
-                <p>Humidity</p>
-                <p>Wind Speed</p>
-                <p>UV Index</p>
+            <div id="weatherDisplay"> <!-- Replace the static content with this dynamic element -->
             </div>
         </article>
         <section id="forecast" class="container">
             <h2>5-Day Forecast</h2>
             <div id="forecast" class="row">
-                <div class="card">
-                    <h3>City Name</h3>
-                    <p>Current Date</p>
-                    <img src="assets/images/cloudy.png" alt="weather icon">
-                    <p>Temperature</p>
-                    <p>Humidity</p>
-                </div>
-                <div class="card">
-                    <h3>City Name</h3>
-                    <p>Current Date</p>
-                    <img src="assets/images/cloudy.png" alt="weather icon">
-                    <p>Temperature</p>
-                    <p>Humidity</p>
-                </div>
-                <div class="card">
-                    <h3>City Name</h3>
-                    <p>Current Date</p>
-                    <img src="assets/images/cloudy.png" alt="weather icon">
-                    <p>Temperature</p>
-                    <p>Humidity</p>
-                </div>
-                <div class="card">
-                    <h3>City Name</h3>
-                    <p>Current Date</p>
-                    <img src="assets/images/cloudy.png" alt="weather icon">
-                    <p>Temperature</p>
-                    <p>Humidity</p>
-                </div>
-                <div class="card">
-                    <h3>City Name</h3>
-                    <p>Current Date</p>
-                    <img src="assets/images/cloudy.png" alt="weather icon">
-                    <p>Temperature</p>
-                    <p>Humidity</p>
-                </div>
+                <!-- The dynamic content will be inserted here by the JavaScript code -->
             </div>
         </section>
     </main>
     <footer>
         <p>Zed-CSP 2023 Weather Dashboard</p>
     </footer>
-    <script src="assets/js/script.js"></script>
+    <script src="./assets/js/script.js"></script> <!-- Update the script src to match your JavaScript file -->
 </body>
 </html>

@@ -12,80 +12,24 @@ const searchListEl = document.getElementById("searches");
 
 // Global variables
 
-var cityList = [];
+var searchHistory = JSON.parse(localStorage.getItem("searchHistory")) || [];
+var cityList = getPastCities();
+
+// Event listeners
+
+searchBtnEl.addEventListener("click", function (event) {
+    event.preventDefault();
+    var city = search.value.trim();
+    if (city) {
+        fetchWeather(city);
+        searchHistory.push(city);
+        localStorage.setItem("searchHistory", JSON.stringify(searchHistory));
+        search.value = "";
+    }
+});
 
 
-// Functions
-// function getWeather() {
-//     // use city name to get lat/lon with geocoder api
-    
-//     try {
-//         const geoResponse = await fetch(geoCoderApiURL + cityList[0] + weatherApiKey)
-//         if (!geoResponse.ok) {
-//             throw new Error("Unable to connect to OpenWeather");
-//         }
-            
-//             .then(function (response) {
-//                 return response.json();
-//             })
-//             .then(function (data) {
-//                 console.log(data);
-//                 // save data in an object
-//                 const cityLocObj = {
-//                     city: data[0].name,
-//                     lat: data[0].lat,
-//                     lon: data[0].lon
-//                 }
-//                 console.log(cityLocObj);
-//                 //push cityLocObj to cityList
-//                 cityList.push(cityLocObj);
-//                 console.log(cityList);
-//                 // use lat/lon to get 5 day forecast
-//                 fetch('https://api.openweathermap.org/data/2.5/forecast?lat=44.34&lon=10.99&appid=64c0c09d2aaed1a2868153c4c9060aa4')
-//                     .then(function (response) {
-//                         //console.log(response);
-//                         if (response.ok) {
-//                             return response.json();
-//                         }
-//                         else {
-//                             alert("Error: " + response.statusText);
-//                         }
-//                     })
-//                     .catch(function (error) {
-//                         console.log(error);
-//                         alert("Unable to connect to OpenWeather");
-//                     })
-//                     .then(function (data) {
-//                         console.log(data);
-//                         // save data in an object
-//                         const cityWeatherObj = {
-//                             city: cityLocObj.city,
-//                             date: data.list[0].dt_txt,
-//                             icon: data.list[0].weather[0].icon,
-//                             temp: data.list[0].main.temp,
-//                             humidity: data.list[0].main.humidity,
-//                             wind: data.list[0].wind.speed,
-//                             uv: data.list[0].main.uvi
-//                         }
-//                         console.log(cityWeatherObj);
-
-
-//                         // save data to local storage
-//                         localStorage.setItem("cityWeatherObj", JSON.stringify(cityWeatherObj));
-//                         getCityList();
-//                         // return data
-//                         return cityWeatherObj;
-//                     }
-//                 );    
-//             }
-//         );
-//     } 
-//     .catch(error => {console.error("error fetching data:", error)});
-//     // use lat/lon to get 5 day forecast
-//     // save data in an object
-//     // save data to local storage
-//     // return data
-// }
+// Functions 
 
 function displayWeather(weatherData) {
     const displayElement = document.getElementById('weatherDisplay');
@@ -95,18 +39,22 @@ function displayWeather(weatherData) {
         const date = new Date(weatherData.list[i].dt * 1000);
         const temp = (weatherData.list[i].main.temp - 273.15).toFixed(2);
         const weather = weatherData.list[i].weather[0].description;
+        const icon = weatherData.list[i].weather[0].icon;
+        const humidity = weatherData.list[i].main.humidity;
+        const windSpeed = weatherData.list[i].wind.speed;
+        const uvIndex = weatherData.list[i].main.uvi;
 
         const weatherElement = `
             <h2>${weatherData.city.name}</h2>
             <div class="today">
                 <h3>${date.toLocaleDateString()}</h3>
-                <img src="assets/images/cloudy.png" alt="weather icon">
+                <img src="assets/images/${icon}@2x.png" alt="weather icon">
                 // symbol to be added later
                 <p>Temperature: ${temp}°C</p>
                 <p>Weather: ${weather}</p>
-                <p>Humidity</p>
-                <p>Wind Speed</p>
-                <p>UV Index</p>
+                <p>Humidity: ${humidity}</p>
+                <p>Wind Speed: ${windSpeed}</p>
+                <p>UV Index: ${uvIndex}</p>
             </div>`;
         displayElement.innerHTML += weatherElement;
     }
@@ -115,7 +63,7 @@ function displayWeather(weatherData) {
 async function fetchWeather() {
     const city = document.getElementById('cityInput').value;
     const pastCities = getPastCities();
-
+  
     if (!pastCities.includes(city)) {
         pastCities.push(city);
         savePastCities(pastCities);
@@ -142,7 +90,7 @@ function getPastCities() {
 
 function displayPastCities() {
     const pastCities = getPastCities();
-    const pastCitiesElement = document.getElementById('pastCities');
+    const pastCitiesElement = document.getElementById('pastCities'); // Update this ID to match the ID of the element in your HTML file
 
     pastCitiesElement.innerHTML = '';
 
@@ -157,33 +105,3 @@ function displayPastCities() {
         pastCitiesElement.appendChild(cityElement);
     });
 }
-
-searchBtnEl.addEventListener("click", function () {
-    // check if city is already in city list
-    if (cityList.includes(search.value)) {
-        alert("City already in list");
-    }
-    // if not, add city to city list
-    let city = search.value;
-    cityList.push(city);
-    console.log(cityList);
-    getWeather();
-    // get city name from input
-    // add city to city list
-    // save city list
-    localStorage.setItem("cityList", JSON.stringify(cityList));
-    // display city list
-    displayCityList();
-});
-
-// event listener for city list buttons:
-searchListEl.addEventListener("click", function (event) {
-    // get city name from button
-    let city = event.target.textContent;
-    console.log(city);
-    // get weather data for city
-    getWeather(city);
-    // display weather data
-    displayWeather();
-});
-
