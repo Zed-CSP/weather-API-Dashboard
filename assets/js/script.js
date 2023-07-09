@@ -77,14 +77,16 @@ function displayForecast(weatherData) {
         const windSpeed = dayForecast.wind.speed;
 
         const forecastElement = document.createElement('div');
-        forecastElement.classList.add('forecast-card');
-        forecastElement.innerHTML = `
-            <h3>${day}, ${date.toLocaleDateString()}</h3>
-            <img src="http://openweathermap.org/img/wn/${icon}.png" alt="weather icon">
-            <p>Temperature: ${temp}°C</p>
-            <p>Weather: ${weather}</p>
-            <p>Humidity: ${humidity}%</p>
-            <p>Wind Speed: ${windSpeed} m/s</p>`;
+        forecastElement.classList.add('card');
+        forecastElement.innerHTML = 
+        `
+                <h3>${day}, ${date.toLocaleDateString()}</h3>
+                <img src="http://openweathermap.org/img/wn/${icon}.png" alt="weather icon">
+                <p>Temperature: ${temp}°C</p>
+                <p>Weather: ${weather}</p>
+                <p>Humidity: ${humidity}%</p>
+                <p>Wind Speed: ${windSpeed} m/s</p>
+        `;
         forecastEl.appendChild(forecastElement);
     }
 }

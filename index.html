@@ -8,28 +8,32 @@
     <link rel="stylesheet" href="assets/css/reset.css">
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
-<body>
-    <header>
+<body class="container">
+    
+    <header class="header">
         <h1>Weather Dashboard</h1>
     </header>
-    <aside>
-        <h2>Search for a City:</h2>
-        <form>
-            <input type="text" placeholder="City Name" id="cityInput">
-            <button type="button" id="searchBtn" onclick="fetchWeather()">Search</button>
-        </form>
-        <h2>Recent Searches:</h2>
-        <div id="pastCities"></div> <!-- Add this element to display past cities -->
-    </aside>
-    <main>
-        <article class="container">
+        <aside class="search card">
+            <h2>Search for a City:</h2>
+            <form>
+                <input type="text" placeholder="City Name" id="cityInput">
+                <button type="button" id="searchBtn" onclick="fetchWeather()">Search</button>
+            </form>
+            <h2>Recent Searches:</h2>
+            <div id="pastCities"></div> <!-- Add this element to display past cities -->
+        </aside>
+        <article class="weatherDisplay card">
             <h2>Current Weather</h2>
             <div id="weatherDisplay"> <!-- Replace the static content with this dynamic element -->
             </div>
         </article>
-        <section id="forecast" class="container">
+        <section class="forecast">
             <h2>5-Day Forecast</h2>
-            <div id="forecast" class="row">
+            <div id="forecast1"></div>
+            <div id="forecast2"></div>
+            <div id="forecast3"></div>
+            <div id="forecast4"></div>
+            <div id="forecast5"></div>
                 <!-- The dynamic content will be inserted here by the JavaScript code -->
             </div>
         </section>
