@@ -10,6 +10,8 @@ const searchBtnEl = document.getElementById("searchBtn");
 const pastCitiesEl = document.getElementById("pastCities");
 const forecastEl = document.getElementById("forecast");
 
+// Default city
+let cityHistory = JSON.parse(localStorage.getItem("cityHistory")) || ["london"];
 // Event listeners
 
 searchBtnEl.addEventListener("click", function (event) {
@@ -63,31 +65,31 @@ function displayCurrentWeather(weatherData) {
 }
 
 function displayForecast(weatherData) {
-    forecastEl.innerHTML = '';
     const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
-    for (let i = 8; i < weatherData.list.length; i += 8) {
-        const dayForecast = weatherData.list[i];
-        const date = new Date(dayForecast.dt * 1000);
-        const day = days[date.getDay()]; // Get the day of the week
-        const temp = (dayForecast.main.temp - 273.15).toFixed(2);
-        const weather = dayForecast.weather[0].description;
-        const icon = dayForecast.weather[0].icon;
-        const humidity = dayForecast.main.humidity;
-        const windSpeed = dayForecast.wind.speed;
+    for (let i = 4, j = 1; i < weatherData.list.length && j <= 5; j++, i += 8) {
+        if (weatherData.list[i]) {
+            const dayForecast = weatherData.list[i];
+            const date = new Date(dayForecast.dt * 1000);
+            const day = days[date.getDay()]; // Get the day of the week
+            const temp = (dayForecast.main.temp - 273.15).toFixed(2);
+            const weather = dayForecast.weather[0].description;
+            const icon = dayForecast.weather[0].icon;
+            const humidity = dayForecast.main.humidity;
+            const windSpeed = dayForecast.wind.speed;
 
-        const forecastElement = document.createElement('div');
-        forecastElement.classList.add('card');
-        forecastElement.innerHTML = 
-        `
-                <h3>${day}, ${date.toLocaleDateString()}</h3>
-                <img src="http://openweathermap.org/img/wn/${icon}.png" alt="weather icon">
-                <p>Temperature: ${temp}°C</p>
-                <p>Weather: ${weather}</p>
-                <p>Humidity: ${humidity}%</p>
-                <p>Wind Speed: ${windSpeed} m/s</p>
-        `;
-        forecastEl.appendChild(forecastElement);
+            const forecastElement = document.getElementById(`forecast${j}`);
+            forecastElement.classList.add('card');
+            forecastElement.innerHTML = 
+            `
+                    <h3>${day}, ${date.toLocaleDateString()}</h3>
+                    <img src="http://openweathermap.org/img/wn/${icon}.png" alt="weather icon">
+                    <p>Temperature: ${temp}°C</p>
+                    <p>Weather: ${weather}</p>
+                    <p>Humidity: ${humidity}%</p>
+                    <p>Wind Speed: ${windSpeed} m/s</p>
+            `;
+        }
     }
 }
 
@@ -116,5 +118,9 @@ function displayPastCities() {
     });
 }
 
+function landing() {
+    fetchWeather(cityHistory[0]);
+}
+
 // Call the function to display the past cities
-window.onload = displayPastCities;
+window.onload = displayPastCities, landing();
