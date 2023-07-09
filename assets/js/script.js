@@ -2,107 +2,117 @@
 
 // API constants
 const weatherApiKey = "64c0c09d2aaed1a2868153c4c9060aa4";
-const weatherApiURL = "https://api.openweathermap.org/data/2.5/forecast?q=";
-const geocoderApiURL = "https://api.openweathermap.org/geo/1.0/direct?q=";
+const weatherApiURL = "https://api.openweathermap.org/data/2.5/forecast";
+
 // DOM constants
-const cityListEl = document.getElementById("cityList");
-const search = document.getElementById("search");
+const cityInputEl = document.getElementById("cityInput");
 const searchBtnEl = document.getElementById("searchBtn");
-const searchListEl = document.getElementById("searches");
-
-// Global variables
-
-var searchHistory = JSON.parse(localStorage.getItem("searchHistory")) || [];
-var cityList = getPastCities();
+const pastCitiesEl = document.getElementById("pastCities");
+const forecastEl = document.getElementById("forecast");
 
 // Event listeners
 
 searchBtnEl.addEventListener("click", function (event) {
     event.preventDefault();
-    var city = search.value.trim();
-    if (city) { //call fetchWeather function if city is truthy
-        fetchWeather(city);  
-        searchHistory.push(city);
-        localStorage.setItem("searchHistory", JSON.stringify(searchHistory));
-        search.value = "";
+    var city = cityInputEl.value.trim();
+    if (city) {
+        fetchWeather(city);
+        saveCityToHistory(city);
+        cityInputEl.value = "";
     }
 });
 
-
-
 // Functions 
 
-function displayWeather(weatherData) {
-    const displayElement = document.getElementById('weatherDisplay');
-    displayElement.innerHTML = '';
-
-    for (let i = 0; i < weatherData.list.length; i += 8) {
-        const date = new Date(weatherData.list[i].dt * 1000);
-        const temp = (weatherData.list[i].main.temp - 273.15).toFixed(2);
-        const weather = weatherData.list[i].weather[0].description;
-        const icon = weatherData.list[i].weather[0].icon;
-        const humidity = weatherData.list[i].main.humidity;
-        const windSpeed = weatherData.list[i].wind.speed;
-        const uvIndex = weatherData.list[i].main.uvi;
-
-        const weatherElement = `
-            <h2>${weatherData.city.name}</h2>
-            <div class="today">
-                <h3>${date.toLocaleDateString()}</h3>
-                <img src="assets/images/${icon}@2x.png" alt="weather icon">
-                // symbol to be added later
-                <p>Temperature: ${temp}°C</p>
-                <p>Weather: ${weather}</p>
-                <p>Humidity: ${humidity}</p>
-                <p>Wind Speed: ${windSpeed}</p>
-                <p>UV Index: ${uvIndex}</p>
-            </div>`;
-        displayElement.innerHTML += weatherElement;
-    }
-}
-
-async function fetchWeather() {
-    const city = document.getElementById('cityInput').value;
-    const pastCities = getPastCities();
-  
-    if (!pastCities.includes(city)) {
-        pastCities.push(city);
-        savePastCities(pastCities);
-    }
+async function fetchWeather(city) {
     try {
         const response = await fetch(`${weatherApiURL}?q=${city}&appid=${weatherApiKey}`);
         if (!response.ok) throw new Error('Failed to fetch weather data');
         
         const weatherData = await response.json();
-        displayWeather(weatherData);
+        displayCurrentWeather(weatherData);
+        displayForecast(weatherData);
     } catch (error) {
         console.error(error);
     }
 }
 
-function savePastCities(pastCities) {
-    localStorage.setItem('pastCities', JSON.stringify(pastCities));
+function displayCurrentWeather(weatherData) {
+    const displayElement = document.getElementById('weatherDisplay');
+    displayElement.innerHTML = '';
+
+    const currentWeather = weatherData.list[0];
+    const date = new Date(currentWeather.dt * 1000);
+    const temp = (currentWeather.main.temp - 273.15).toFixed(2);
+    const weather = currentWeather.weather[0].description;
+    const icon = currentWeather.weather[0].icon;
+    const humidity = currentWeather.main.humidity;
+    const windSpeed = currentWeather.wind.speed;
+
+    const weatherElement = `
+        <h2>${weatherData.city.name}</h2>
+        <div class="today">
+            <h3>${date.toLocaleDateString()}</h3>
+            <img src="http://openweathermap.org/img/wn/${icon}.png" alt="weather icon">
+            <p>Temperature: ${temp}°C</p>
+            <p>Weather: ${weather}</p>
+            <p>Humidity: ${humidity}%</p>
+            <p>Wind Speed: ${windSpeed} m/s</p>
+        </div>`;
+    displayElement.innerHTML += weatherElement;
 }
 
-function getPastCities() {
-    const pastCities = localStorage.getItem('pastCities');
-    return pastCities ? JSON.parse(pastCities) : [];
+function displayForecast(weatherData) {
+    forecastEl.innerHTML = '';
+    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+    for (let i = 8; i < weatherData.list.length; i += 8) {
+        const dayForecast = weatherData.list[i];
+        const date = new Date(dayForecast.dt * 1000);
+        const day = days[date.getDay()]; // Get the day of the week
+        const temp = (dayForecast.main.temp - 273.15).toFixed(2);
+        const weather = dayForecast.weather[0].description;
+        const icon = dayForecast.weather[0].icon;
+        const humidity = dayForecast.main.humidity;
+        const windSpeed = dayForecast.wind.speed;
+
+        const forecastElement = document.createElement('div');
+        forecastElement.classList.add('forecast-card');
+        forecastElement.innerHTML = `
+            <h3>${day}, ${date.toLocaleDateString()}</h3>
+            <img src="http://openweathermap.org/img/wn/${icon}.png" alt="weather icon">
+            <p>Temperature: ${temp}°C</p>
+            <p>Weather: ${weather}</p>
+            <p>Humidity: ${humidity}%</p>
+            <p>Wind Speed: ${windSpeed} m/s</p>`;
+        forecastEl.appendChild(forecastElement);
+    }
+}
+
+function saveCityToHistory(city) {
+    let cityHistory = JSON.parse(localStorage.getItem("cityHistory")) || [];
+    if (!cityHistory.includes(city)) {
+        cityHistory.push(city);
+        localStorage.setItem("cityHistory", JSON.stringify(cityHistory));
+    }
+    displayPastCities();
 }
 
 function displayPastCities() {
-    const pastCities = getPastCities();
-    const pastCitiesElement = document.getElementById('pastCities'); // Update this ID to match the ID of the element in your HTML file
+    const cityHistory = JSON.parse(localStorage.getItem("cityHistory")) || [];
+    pastCitiesEl.innerHTML = '';
 
-    pastCitiesElement.innerHTML = '';
-
-    pastCities.forEach(city => {
+    cityHistory.forEach(city => {
         const cityElement = document.createElement('button');
         cityElement.textContent = city;
         cityElement.addEventListener('click', () => {
-            document.getElementById('cityInput').value = city;
-            fetchWeather();
+            cityInputEl.value = city;
+            fetchWeather(city);
         });
 
-        pastCitiesElement.appendChild(cityElement);
+        pastCitiesEl.appendChild(cityElement);
     });
 }
+
+// Call the function to display the past cities
+window.onload = displayPastCities;
