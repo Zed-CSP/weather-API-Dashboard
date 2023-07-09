@@ -52,22 +52,15 @@ function displayCurrentWeather(weatherData) {
     const weatherElement = `
         <h2>${weatherData.city.name}</h2>
         <div class="today">
-            <div>
-                <h4>${date.toLocaleDateString()}</h4>
-            </div>
-            <div>
-                <img src="http://openweathermap.org/img/wn/${icon}.png" alt="weather icon">
-            </div>
-            <div id="info">
-                <p>Temperature: ${temp}°C</p><br>
-                <p>Weather: ${weather}</p><br>
-                <p>Humidity: ${humidity}%</p><br>
-                <p>Wind Speed: ${windSpeed} m/s</p>
-            </div>
+            <h3>${date.toLocaleDateString()}</h3>
+            <img src="http://openweathermap.org/img/wn/${icon}.png" alt="weather icon">
+            <p>Temperature: ${temp}°C</p>
+            <p>Weather: ${weather}</p>
+            <p>Humidity: ${humidity}%</p>
+            <p>Wind Speed: ${windSpeed} m/s</p>
         </div>`;
     displayElement.innerHTML += weatherElement;
 }
-
 
 function displayForecast(weatherData) {
     forecastEl.innerHTML = '';
@@ -86,14 +79,12 @@ function displayForecast(weatherData) {
         const forecastElement = document.createElement('div');
         forecastElement.classList.add('forecast-card');
         forecastElement.innerHTML = `
-            <div class="card">
-                <h3>${day}, ${date.toLocaleDateString()}</h3>
-                <img src="http://openweathermap.org/img/wn/${icon}.png" alt="weather icon">
-                <p>Temperature: ${temp}°C</p>
-                <p>Weather: ${weather}</p>
-                <p>Humidity: ${humidity}%</p>
-                <p>Wind Speed: ${windSpeed} m/s</p>
-            </div>`;
+            <h3>${day}, ${date.toLocaleDateString()}</h3>
+            <img src="http://openweathermap.org/img/wn/${icon}.png" alt="weather icon">
+            <p>Temperature: ${temp}°C</p>
+            <p>Weather: ${weather}</p>
+            <p>Humidity: ${humidity}%</p>
+            <p>Wind Speed: ${windSpeed} m/s</p>`;
         forecastEl.appendChild(forecastElement);
     }
 }

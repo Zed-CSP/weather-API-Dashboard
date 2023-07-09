@@ -5,41 +5,38 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/reset.css">
+    <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-    <header class="p-3 mb-2 bg-primary text-white text-center">
+    <header>
         <h1>Weather Dashboard</h1>
     </header>
-    <aside class="p-3 mb-2 bg-light">
+    <aside>
         <h2>Search for a City:</h2>
         <form>
-            <input type="text" placeholder="City Name" id="cityInput" class="form-control">
-            <button type="button" id="searchBtn" onclick="fetchWeather()" class="btn btn-primary mt-3">Search</button>
+            <input type="text" placeholder="City Name" id="cityInput">
+            <button type="button" id="searchBtn" onclick="fetchWeather()">Search</button>
         </form>
         <h2>Recent Searches:</h2>
         <div id="pastCities"></div> <!-- Add this element to display past cities -->
     </aside>
-    <main class="container mt-3">
-        <div class="row">
-            <article class="col-md-6">
-                <h2>Current Weather</h2>
-                <div id="weatherDisplay" class="d-flex justify-content-between">
-                    <!-- Replace the static content with this dynamic element -->
-                </div>
-            </article>
-            <section id="forecast" class="col-md-6">
-                <h2>5-Day Forecast</h2>
-                <div id="forecast" class="d-flex flex-wrap justify-content-between">
-                    <!-- The dynamic content will be inserted here by the JavaScript code -->
-                </div>
-            </section>
-        </div>
+    <main>
+        <article class="container">
+            <h2>Current Weather</h2>
+            <div id="weatherDisplay"> <!-- Replace the static content with this dynamic element -->
+            </div>
+        </article>
+        <section id="forecast" class="container">
+            <h2>5-Day Forecast</h2>
+            <div id="forecast" class="row">
+                <!-- The dynamic content will be inserted here by the JavaScript code -->
+            </div>
+        </section>
     </main>
-    <footer class="p-3 mt-2 bg-light text-center">
+    <footer>
         <p>Zed-CSP 2023 Weather Dashboard</p>
     </footer>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
     <script src="./assets/js/script.js"></script> <!-- Update the script src to match your JavaScript file -->
 </body>
 </html>

@@ -73,19 +73,11 @@ h3 {
 
 .today {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-}
-
-#info {
-    display: flex;
     flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
+    justify-content: space-between;
+    align-items: left;
     width: 100%;
 }
-
 
 .row {
     display: flex;
