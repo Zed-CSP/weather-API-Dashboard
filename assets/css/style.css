@@ -1,5 +1,6 @@
 header {
-    background: #3182d9;
+    background: rgb(2,0,36);
+    background: linear-gradient(196deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 0%, rgba(0,212,255,1) 100%);
     border: 1px solid #ccc;
     border-radius: 3px;
     box-shadow: 0 1px 1px rgba(0,0,0,.04);
