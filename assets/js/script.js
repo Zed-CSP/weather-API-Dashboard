@@ -20,13 +20,14 @@ var cityList = getPastCities();
 searchBtnEl.addEventListener("click", function (event) {
     event.preventDefault();
     var city = search.value.trim();
-    if (city) {
-        fetchWeather(city);
+    if (city) { //call fetchWeather function if city is truthy
+        fetchWeather(city);  
         searchHistory.push(city);
         localStorage.setItem("searchHistory", JSON.stringify(searchHistory));
         search.value = "";
     }
 });
+
 
 
 // Functions 
