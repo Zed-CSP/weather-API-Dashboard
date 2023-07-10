@@ -132,7 +132,7 @@ function displayPastCities() {
 
 
 function landing() {
-    fetchWeather(cityHistory[0]);
+    fetchWeather(cityHistory[cityHistory.length - 1]); // Fetch the weather for the last city in the history
 }
 
 // Call the function to display the past cities
