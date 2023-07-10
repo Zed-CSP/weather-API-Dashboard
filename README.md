@@ -1,3 +1,4 @@
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 # Weather API dashboard
 
 ## Description
@@ -66,3 +67,6 @@ THEN I am again presented with current and future conditions for that city
 ## Credits
 - Christopher Peret ([Zed-CSP](https://github.com/Zed-CSP))
 - completed as a project for UC Berkeley extension class
+
+## License 
+This project is licensed under the MIT License - see Badge link for details.
