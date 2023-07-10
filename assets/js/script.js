@@ -41,27 +41,37 @@ async function fetchWeather(city) {
 
 function displayCurrentWeather(weatherData) {
     const displayElement = document.getElementById('weatherDisplay');
-    displayElement.innerHTML = '';
 
     const currentWeather = weatherData.list[0];
     const date = new Date(currentWeather.dt * 1000);
     const temp = (currentWeather.main.temp - 273.15).toFixed(2);
     const weather = currentWeather.weather[0].description;
-    const icon = currentWeather.weather[0].icon;
-    const humidity = currentWeather.main.humidity;
-    const windSpeed = currentWeather.wind.speed;
+    const icon = currentWeather.weather[0].icon; // Weather icon
+    const humidity = currentWeather.main.humidity; // %
+    const windSpeed = Math.round(currentWeather.wind.speed*2.23694); // m/s to mph
+    console.log(windSpeed);
+    console.log(currentWeather.wind.speed);
+    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']; // Array of days of the week
+    const day = days[date.getDay()]; // Get the day of the week
 
     const weatherElement = `
-        <h2>${weatherData.city.name}</h2>
-        <div class="today">
+        <div class="stats">
+            <h2>${weatherData.city.name}</h2>
+            <h3>${date.toLocaleTimeString()}</h3>
+            <h3>${day}</h3>
             <h3>${date.toLocaleDateString()}</h3>
-            <img src="http://openweathermap.org/img/wn/${icon}.png" alt="weather icon">
+        </div>
+        <div>
+            <img src="http://openweathermap.org/img/wn/${icon}.png" alt="weather icon" style="height: 20vh">
+        </div>
+        <div class="stats">
             <p>Temperature: ${temp}°C</p>
             <p>Weather: ${weather}</p>
             <p>Humidity: ${humidity}%</p>
-            <p>Wind Speed: ${windSpeed} m/s</p>
+            <p>Wind Speed: ${windSpeed} mph</p>
         </div>`;
-    displayElement.innerHTML += weatherElement;
+    displayElement.innerHTML = ''; // Clear the display
+    displayElement.innerHTML += weatherElement; // Add the weather element to the display
 }
 
 function displayForecast(weatherData) {
@@ -76,18 +86,19 @@ function displayForecast(weatherData) {
             const weather = dayForecast.weather[0].description;
             const icon = dayForecast.weather[0].icon;
             const humidity = dayForecast.main.humidity;
-            const windSpeed = dayForecast.wind.speed;
+            const windSpeed = Math.round(dayForecast.wind.speed*2.23694); // m/s to mph
 
             const forecastElement = document.getElementById(`forecast${j}`);
+            forecastElement.innerHTML = '';
             forecastElement.classList.add('card');
             forecastElement.innerHTML = 
             `
                     <h3>${day}, ${date.toLocaleDateString()}</h3>
-                    <img src="http://openweathermap.org/img/wn/${icon}.png" alt="weather icon">
+                    <img src="http://openweathermap.org/img/wn/${icon}.png" alt="weather icon" style="height: 50%">
                     <p>Temperature: ${temp}°C</p>
                     <p>Weather: ${weather}</p>
                     <p>Humidity: ${humidity}%</p>
-                    <p>Wind Speed: ${windSpeed} m/s</p>
+                    <p>Wind Speed: ${windSpeed} mph</p>
             `;
         }
     }
@@ -117,6 +128,8 @@ function displayPastCities() {
         pastCitiesEl.appendChild(cityElement);
     });
 }
+
+
 
 function landing() {
     fetchWeather(cityHistory[0]);
